@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Boto_da_Fortuna.TelaInicial"
+             BackgroundColor="#004D40"
+             NavigationPage.HasNavigationBar="False">
+    <VerticalStackLayout Spacing="30" VerticalOptions="Center" Padding="30">
+
+        <Image Source="imgboto.jpg" 
+               HeightRequest="300" 
+               HorizontalOptions="Center" />
+
+        <Label Text="FORTUNE BOTO"
+               TextColor="#FFD700"
+               FontSize="40"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <Label Text="O Simulador Educativo"
+               TextColor="White"
+               FontSize="18"
+               HorizontalOptions="Center" />
+
+        <Button Text="COMEÇAR A SIMULAÇÃO"
+                Clicked="OnComecarClicked"
+                BackgroundColor="#FFD700"
+                TextColor="Black"
+                FontAttributes="Bold"
+                HeightRequest="60"
+                CornerRadius="30"
+                Margin="0,40,0,0"/>
+
+    </VerticalStackLayout>
+</ContentPage>

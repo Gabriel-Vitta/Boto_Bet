@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Boto_da_Fortuna.MainPage"
+             BackgroundColor="#004D40">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+            <Label Text="FORTUNE BOTO"
+                   TextColor="#FFD700" FontSize="32" FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Image Source="imgboto.jpg"
+                   HeightRequest="120" HorizontalOptions="Center" />
+
+            <Grid WidthRequest="320" HeightRequest="320" HorizontalOptions="Center" Margin="0,20">
+
+                <Image x:Name="ImgRoleta"
+                       Source="roleta.jpg"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+                <Image Source="seta.jpg"
+                       HeightRequest="60"
+                       VerticalOptions="Start" HorizontalOptions="Center"
+                       Margin="0,-20,0,0"/>
+            </Grid>
+
+            <Label x:Name="LblSaldo"
+                   Text="Saldo: R$ 1000,00"
+                   TextColor="White" FontSize="24" HorizontalOptions="Center" />
+
+            <Button x:Name="BtnApostar"
+                    Text="GIRAR (R$ 10,00)"
+                    Clicked="OnApostarClicked"
+                    BackgroundColor="#FFD700" TextColor="Black" FontAttributes="Bold"
+                    HeightRequest="50" CornerRadius="25" HorizontalOptions="Center" />
+
+            <Button Text="PARAR (SAIR)"
+                    Clicked="OnPararClicked"
+                    BackgroundColor="#D32F2F" TextColor="White" FontAttributes="Bold"
+                    HeightRequest="50" CornerRadius="25" HorizontalOptions="Center" />
+
+            <Label x:Name="LblAlerta"
+                   Text=""
+                   TextColor="#FF6B6B" FontSize="18"
+                   HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
