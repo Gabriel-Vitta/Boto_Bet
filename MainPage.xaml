@@ -14,18 +14,25 @@
             <Image Source="imgboto.jpg"
                    HeightRequest="120" HorizontalOptions="Center" />
 
-            <Grid WidthRequest="320" HeightRequest="320" HorizontalOptions="Center" Margin="0,20">
+            <Border Stroke="#FFD700" StrokeThickness="4" BackgroundColor="#222"
+                    WidthRequest="300" HeightRequest="300"
+                    HorizontalOptions="Center">
+                <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*,*" Padding="10" RowSpacing="5" ColumnSpacing="5">
 
-                <Image x:Name="ImgRoleta"
-                       Source="roleta.jpg"
-                       Aspect="AspectFit"
-                       HorizontalOptions="Fill" VerticalOptions="Fill" />
+                    <Image x:Name="Slot1" Source="item1.png" Aspect="AspectFit" BackgroundColor="White"/>
+                    <Image x:Name="Slot2" Source="item2.png" Aspect="AspectFit" BackgroundColor="White" Grid.Column="1"/>
+                    <Image x:Name="Slot3" Source="item1.png" Aspect="AspectFit" BackgroundColor="White" Grid.Column="2"/>
 
-                <Image Source="seta.jpg"
-                       HeightRequest="60"
-                       VerticalOptions="Start" HorizontalOptions="Center"
-                       Margin="0,-20,0,0"/>
-            </Grid>
+                    <Image x:Name="Slot4" Source="item2.png" Aspect="AspectFit" BackgroundColor="White" Grid.Row="1"/>
+                    <Image x:Name="Slot5" Source="item1.png" Aspect="AspectFit" BackgroundColor="White" Grid.Row="1" Grid.Column="1"/>
+                    <Image x:Name="Slot6" Source="item3.png" Aspect="AspectFit" BackgroundColor="White" Grid.Row="1" Grid.Column="2"/>
+
+                    <Image x:Name="Slot7" Source="item3.png" Aspect="AspectFit" BackgroundColor="White" Grid.Row="2"/>
+                    <Image x:Name="Slot8" Source="item1.png" Aspect="AspectFit" BackgroundColor="White" Grid.Row="2" Grid.Column="1"/>
+                    <Image x:Name="Slot9" Source="item2.png" Aspect="AspectFit" BackgroundColor="White" Grid.Row="2" Grid.Column="2"/>
+
+                </Grid>
+            </Border>
 
             <Label x:Name="LblSaldo"
                    Text="Saldo: R$ 1000,00"

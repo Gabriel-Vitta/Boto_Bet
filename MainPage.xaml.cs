@@ -11,57 +11,106 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
+    string[] simbolos = { "item1.png", "item2.png", "item3.png"};
     // Lógica do Botão GIRAR
     private async void OnApostarClicked(object sender, EventArgs e)
     {
-        // 1. Segurança de saldo
+        // 1. Verifica Saldo
         if (saldo < custoAposta)
         {
-            await DisplayAlert("Fim da Linha", "Você quebrou a banca!", "Ok");
+            await DisplayAlert("Ops", "Sem saldo!", "Ok");
             return;
         }
 
-        // 2. Cobra a aposta
         saldo -= custoAposta;
         LblSaldo.Text = $"Saldo: R$ {saldo:F2}";
-        LblAlerta.Text = ""; // Limpa alertas anteriores
+        LblAlerta.Text = "";
 
-        // --- ANIMAÇÃO DA ROLETA ---
-
+        // --- ANIMAÇÃO DOS SLOTS ---
         Random rng = new Random();
+        Image[] slots = { Slot1, Slot2, Slot3, Slot4, Slot5, Slot6, Slot7, Slot8, Slot9 };
 
-        // Calcula entre 3 e 6 voltas completas + um ângulo aleatório
-        double voltasCompletas = 360 * rng.Next(3, 6);
-        double anguloAleatorio = rng.Next(0, 360);
-        double giroTotal = voltasCompletas + anguloAleatorio;
+        // Configuração da velocidade
+        int totalGiros = 30; // Quantas vezes as imagens vão trocar no total
+        int delayAtual = 30; // Começa super rápido (30ms entre trocas)
+        int incrementoDelay = 15; // Quanto tempo adiciona a cada giro pra ficar mais lento
 
-        // Gira a IMGROLETA por 3 segundos (Física realista)
-        uint duracao = 3000;
-        // AQUI ESTÁ A MUDANÇA: Usamos ImgRoleta agora
-        await ImgRoleta.RotateTo(giroTotal, duracao, Easing.CubicOut);
-
-        // Reseta o ângulo matemático
-        ImgRoleta.Rotation = ImgRoleta.Rotation % 360;
-
-        // ---------------------------
-
-        // 3. Lógica do Resultado (RTP Viciado)
-        int resultado = rng.Next(1, 100);
-
-        if (resultado > 90) // 10% de chance de ganhar (Difícil)
+        // Loop visual com desaceleração
+        for (int i = 0; i < totalGiros; i++)
         {
-            double premio = 15.00;
-            saldo += premio;
-            await DisplayAlert("GANHOU!", $"A roleta parou no prêmio! +R$ {premio:F2}", "Continuar");
+            // 1. Troca todas as imagens
+            foreach (var slot in slots)
+            {
+                // Adicionamos uma micro animação de escala para dar "impacto" na troca
+                // Não precisa do 'await' aqui para todos fazerem ao mesmo tempo
+                slot.ScaleTo(0.8, 50).ContinueWith(t => slot.ScaleTo(1.0, 50));
+
+                int indexAleatorio = rng.Next(simbolos.Length);
+                slot.Source = simbolos[indexAleatorio];
+            }
+
+            // 2. Espera o tempo atual
+            await Task.Delay(delayAtual);
+
+            // 3. Aumenta o tempo de espera para a próxima rodada (fica mais lento)
+            // Só começa a desacelerar depois da metade dos giros, para garantir um começo rápido
+            if (i > totalGiros / 2)
+            {
+                delayAtual += incrementoDelay;
+                // Opcional: Se quiser que o último giro seja BEM dramático:
+                if (i == totalGiros - 2) delayAtual += 300; // O penúltimo giro dá uma travada
+            }
+        }
+
+        // --- VERIFICAÇÃO DE VITÓRIA ---
+        // Agora vamos ver o que ficou parado na tela.
+        // Precisamos saber QUAL imagem está em cada slot.
+        // O jeito mais simples é verificar a propriedade Source.
+
+        // Vamos guardar o resultado final numa matriz simples (3 linhas)
+        // Nota: No MAUI, ler o Source de volta pode ser chato, então vamos confiar
+        // na sorte do último giro do loop acima.
+
+        // Lógica simplificada: Verifica Linha do Meio (Slots 4, 5 e 6) - A mais clássica
+        bool ganhouLinhaMeio = VerificarLinha(Slot4, Slot5, Slot6);
+        bool ganhouLinhaCima = VerificarLinha(Slot1, Slot2, Slot3);
+        bool ganhouLinhaBaixo = VerificarLinha(Slot7, Slot8, Slot9);
+
+        double premioTotal = 0;
+
+        if (ganhouLinhaMeio) premioTotal += 100;
+        if (ganhouLinhaCima) premioTotal += 50;
+        if (ganhouLinhaBaixo) premioTotal += 50;
+
+        if (premioTotal > 0)
+        {
+            saldo += premioTotal;
+            LblAlerta.Text = $"PARABÉNS! Ganhou R$ {premioTotal:F2}";
+            await DisplayAlert("JACKPOT!", $"Você ganhou R$ {premioTotal:F2}", "Uhuu");
         }
         else
         {
-            // Perdeu (90% das vezes)
-            LblAlerta.Text = "A roleta parou na área de perda. Tente novamente.";
+            LblAlerta.Text = "Não foi dessa vez. Tente de novo!";
         }
 
-        // Atualiza o saldo final na tela
         LblSaldo.Text = $"Saldo: R$ {saldo:F2}";
+        // await Banco.SalvarSaldo(saldo); // Se já tiver configurado o banco
+    }
+
+    // Função auxiliar para comparar 3 imagens
+    private bool VerificarLinha(Image s1, Image s2, Image s3)
+    {
+        // Converte o Source para string para poder comparar
+        string img1 = s1.Source.ToString();
+        string img2 = s2.Source.ToString();
+        string img3 = s3.Source.ToString();
+
+        // Remove o "File: " que o MAUI coloca na frente do nome as vezes
+        img1 = img1.Replace("File: ", "");
+        img2 = img2.Replace("File: ", "");
+        img3 = img3.Replace("File: ", "");
+
+        return (img1 == img2 && img2 == img3);
     }
 
     // Lógica do Botão PARAR
