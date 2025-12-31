@@ -1,52 +1,71 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Boto_da_Fortuna.MainPage"
-             BackgroundColor="#004D40">
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             Padding="0"
+             BackgroundColor="Transparent">
+    <Grid>
 
-    <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+        <Image Source="cenariojogo.png"
+               Aspect="AspectFill"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill" />
 
-            <Label Text="FORTUNE BOTO"
-                   TextColor="#FFD700" FontSize="32" FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+        <Grid>
+            <ImageButton Source="voltar.png"
+                         Clicked="OnVoltarClicked"
+                         HeightRequest="60"
+                         WidthRequest="60"
+                         BackgroundColor="Transparent"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Start"
+                         Margin="10" />
 
-            <Image Source="imgboto.jpg"
-                   HeightRequest="120" HorizontalOptions="Center" />
+            <ScrollView>
+                <VerticalStackLayout Spacing="5" Padding="0" VerticalOptions="Center">
 
-            <Grid WidthRequest="320" HeightRequest="320" HorizontalOptions="Center" Margin="0,20">
+                    <!-- Container da roleta: aumenta tamanho e adiciona margem superior para evitar corte -->
+                    <Grid WidthRequest="300" HeightRequest="450"
+                          HorizontalOptions="Center" VerticalOptions="Center"
+                          Margin="0,2,0,0"> <!-- margem topo para não colar na barra do SO -->
+                        <!-- IMAGEM DE FUNDO DA ROLETA: AspectFit para não cortar -->
+                        <Image Source="niquel.png"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Margin="-50" />
 
-                <Image x:Name="ImgRoleta"
-                       Source="roleta.jpg"
-                       Aspect="AspectFit"
-                       HorizontalOptions="Fill" VerticalOptions="Fill" />
+                        <!-- GRADE COM OS SLOTS (fundo transparente) -->
+                        <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*,*" Padding="10" RowSpacing="-100" ColumnSpacing="10"
+                              BackgroundColor="Transparent">
+                            <Image x:Name="Slot1" Source="item1.png" Aspect="AspectFit" BackgroundColor="Transparent"/>
+                            <Image x:Name="Slot2" Source="item2.png" Aspect="AspectFit" BackgroundColor="Transparent" Grid.Column="1"/>
+                            <Image x:Name="Slot3" Source="item1.png" Aspect="AspectFit" BackgroundColor="Transparent" Grid.Column="2"/>
 
-                <Image Source="seta.jpg"
-                       HeightRequest="60"
-                       VerticalOptions="Start" HorizontalOptions="Center"
-                       Margin="0,-20,0,0"/>
-            </Grid>
+                            <Image x:Name="Slot4" Source="item2.png" Aspect="AspectFit" BackgroundColor="Transparent" Grid.Row="1"/>
+                            <Image x:Name="Slot5" Source="item1.png" Aspect="AspectFit" BackgroundColor="Transparent" Grid.Row="1" Grid.Column="1"/>
+                            <Image x:Name="Slot6" Source="item3.png" Aspect="AspectFit" BackgroundColor="Transparent" Grid.Row="1" Grid.Column="2"/>
 
-            <Label x:Name="LblSaldo"
-                   Text="Saldo: R$ 1000,00"
-                   TextColor="White" FontSize="24" HorizontalOptions="Center" />
+                            <Image x:Name="Slot7" Source="item3.png" Aspect="AspectFit" BackgroundColor="Transparent" Grid.Row="2"/>
+                            <Image x:Name="Slot8" Source="item1.png" Aspect="AspectFit" BackgroundColor="Transparent" Grid.Row="2" Grid.Column="1"/>
+                            <Image x:Name="Slot9" Source="item2.png" Aspect="AspectFit" BackgroundColor="Transparent" Grid.Row="2" Grid.Column="2"/>
+                        </Grid>
+                    </Grid>
 
-            <Button x:Name="BtnApostar"
-                    Text="GIRAR (R$ 10,00)"
-                    Clicked="OnApostarClicked"
-                    BackgroundColor="#FFD700" TextColor="Black" FontAttributes="Bold"
-                    HeightRequest="50" CornerRadius="25" HorizontalOptions="Center" />
+                    <!-- resto -->
+                    <Label x:Name="LblSaldo" Text="Saldo: R$ 0,00" TextColor="White" FontSize="24" HorizontalOptions="Center" />
 
-            <Button Text="PARAR (SAIR)"
-                    Clicked="OnPararClicked"
-                    BackgroundColor="#D32F2F" TextColor="White" FontAttributes="Bold"
-                    HeightRequest="50" CornerRadius="25" HorizontalOptions="Center" />
+                    <ImageButton Source="botao_spin.png" Clicked="OnApostarClicked"
+                                 HeightRequest="70" WidthRequest="150" BackgroundColor="Transparent"
+                                 HorizontalOptions="Center" Margin="10"/>
 
-            <Label x:Name="LblAlerta"
-                   Text=""
-                   TextColor="#FF6B6B" FontSize="18"
-                   HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                    <Label x:Name="LblAlerta" Text="" TextColor="#FF6B6B" FontSize="18"
+                           HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
 
-        </VerticalStackLayout>
-    </ScrollView>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
 </ContentPage>
